@@ -1,0 +1,24 @@
+version: '2'
+services:
+  python:
+      container_name: python
+      build: ./docker/python/
+      command: python /usr/src/app/daemon.py
+      volumes:
+        - ./src:/usr/src/app
+      networks:
+        - backend-network
+  selenium:
+      container_name: selenium
+      image: selenium/standalone-chrome-debug:latest
+      ports:
+        - 5900
+      environment:
+        - SCREEN_WIDTH=1920
+        - SCREEN_HEIGHT=1080
+      restart: always
+      cpu_quota: 100000
+      networks:
+        - backend-network
+networks:
+  backend-network:
